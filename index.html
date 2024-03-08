@@ -1,1 +1,59 @@
-<h1>1111</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>胖乖生活取Token</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>胖乖生活取Token</h2>
+    <label for="phoneInput">手机号:</label>
+    <input type="text" id="phoneInput" name="phone">
+    <label for="verifyInput">验证码:</label>
+    <input type="text" id="verifyInput" name="verify">
+    <div class="button-container">
+        <label for="scriptSelector"></label><select id="scriptSelector" onchange="loadScript()" class="spacing">
+            <option value="">请选择</option>
+            <option value="h5">网页端</option>
+            <option value="app">App端</option>
+        </select>
+        <button onclick="sendPostRequest()" class="spacing">发送验证码</button>
+        <button onclick="verifyCode()" class="spacing">登录</button>
+
+    </div>
+    <div id="responseDisplay"></div>
+    <div class="center-container">
+        <button onclick="copy()">复制Token</button>
+    </div>
+</div>
+<script>
+    function loadScript() {
+        const selector = document.getElementById('scriptSelector');
+        const choice = selector.value;
+
+        if (choice === 'app') {
+            const proceed = window.confirm("App端会掉登录，是否继续？");
+            if (!proceed) {
+                return;
+            }
+        }
+
+        const script = document.createElement('script');
+        if (choice === 'h5') {
+            script.src = 'h5.js';
+        } else if (choice === 'app') {
+            script.src = 'app.js';
+        }
+
+        const oldScript = document.querySelector('body script[src*=".js"]:not([src*="axios"])');
+        if (oldScript) {
+            document.body.removeChild(oldScript);
+        }
+
+        document.body.appendChild(script);
+    }
+</script>
+</body>
+</html>
